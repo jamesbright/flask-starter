@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My HTML Template</title>
-</head>
-<body>
-  <h1>Welcome to my HTML template!</h1>
-  <h1>Hello World!</h1>
-  {% for job in jobs %}
-  {% include 'home-item.html' %}
-  {% endfor %}
-</body>
-</html>
+{% include 'base.html' %}
+{% block base %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Welcome to {{ title }}</h1>
+      <p>This is the home page of the {{ title }} website.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
