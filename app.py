@@ -1,40 +1,26 @@
 from flask import Flask, render_template,jsonify
+from models import storage
+from models.user import User
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+from wtforms.validators import ValidationError
+from flask_bcrypt import Bcrypt
+from functions import *
+from forms import *
+
 
 app = Flask(__name__)
-JOBS = [
-  {
-    'id': 1,
-    'title': 'Software Engineer',
-    'location': 'San Francisco',
-    'salary': '$100,000',
-    'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    'date': 'June 1, 2018',
-    'url': 'https://www.example.com/job/1',
-    'company': 'Example Company1',
-  },
-  {
-    'id': 1,
-    'title': 'Software Engineer',
-    'location': 'San Francisco',
-    'salary': '$100,000',
-    'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    'date': 'June 1, 2018',
-    'url': 'https://www.example.com/job/1',
-    'company': 'Example Company1',
-  },
-  {
-    'id': 1,
-    'title': 'Software Engineer',
-    'location': 'San Francisco',
-    'salary': '$100,000',
-    'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    'date': 'June 1, 2018',
-    'url': 'https://www.example.com/job/1',
-    'company': 'Example Company1',
-  },
-    
-]
+app.config['SECRET_KEY'] = 'mysecretkey'
+bcrypt = Bcrypt(app) 
 
+login_manager = LoginManager() 
+login_manager.init_app(app) 
+login_manager.login_view = "login"
+
+@login_manager.user_loader
+def load_user(user_id):
+    """A function that loads the user from storage by id"""
+    return storage.get_user_by_id(int(user_id))
+  
 @app.route("/")
 def hello():
     return render_template('home.html', jobs=JOBS)
