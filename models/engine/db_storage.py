@@ -32,7 +32,7 @@ class DBStorage:
                     new_dict[key] = obj
         return (new_dict)
 
-    def get_user(self, email):
+    def get_user_by_email(self, email):
         """A method that get the data from storage for validation using the user's email"""
         user = self.__session.query(User).filter(User.email==email).first()
         return user
