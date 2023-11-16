@@ -42,11 +42,6 @@ class DBStorage:
         user = self.__session.query(User).filter(User.id==user_id).first()
         return user
 
-    def get_user_git(self, git_username):
-        """A method that get the data from storage for validation using user github username"""
-        user = self.__session.query(User).filter(User.github_username==git_username).first()
-        return user
-
     def new(self, obj):
         """ Adds the object to the current database session """
         self.__session.add(obj)
